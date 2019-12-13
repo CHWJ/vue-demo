@@ -9,17 +9,6 @@
         {{ message }}
     </div>
 
-    <div id="app-2">
-        <span title="message">
-            鼠标悬停几秒钟查看此处的提示信息！
-        </span>
-    </div>
-    <div id="app-3">
-        <span v-bind:title="message">
-            鼠标悬停几秒钟查看此处动态绑定的提示信息！
-        </span>
-    </div>
-
     <script>
         var app = new Vue({
             el:'#app',
@@ -27,10 +16,59 @@
                 message:'hello,jim!'
             }
         });
+    </script>
+
+    <div id="app-2">
+        <span title="message">
+            鼠标悬停几秒钟查看此处的提示信息！
+        </span>
+    </div>
+    <div id="app-3">
+        <!-- 将这个元素节点的 title 特性和 Vue 实例的 message 属性保持一致 -->
+        <span v-bind:title="message">
+            鼠标悬停几秒钟查看此处动态绑定的提示信息！
+        </span>
+    </div>
+
+    <script>
         var app2 = new Vue({
             el:'#app-3',
             data:{
                 message:'hello,jim!'
+            }
+        });
+    </script>
+
+    <div id="app-4">
+        <p v-if="seen">现在你看到我了</p>
+    </div>
+
+    <script>
+        var app3 = new Vue({
+            el: '#app-4',
+            data: {
+                seen: true
+            }
+        });
+    </script>
+
+    <div id="app-5">
+        <ol>
+        <li v-for="todo in todos">
+            {{ todo.text }}
+        </li>
+        </ol>
+    </div>
+
+    <script>
+        var app4 = new Vue({
+            el: '#app-5',
+            data: {
+                todos: [
+                { text: '学习 JavaScript' },
+                { text: '学习 Vue' },
+                { text: '整个牛项目' }
+                ]
             }
         });
     </script>
