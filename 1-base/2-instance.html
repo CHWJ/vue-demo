@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue 实例</title>
+    <script src="../lib/vue.js"></script>
+</head>
+<body>
+
+<h3>示例1：Vue 实例的构成</h3>
+<img src="img/Snipaste_2019-12-15_21-08-11.png" height="254" width="294"/>
+
+<h3>示例2：将data对象中的所有属性（但只有当实例被创建时就已经存在于 data 中的属性才是响应式的）加入到Vue 的响应式系统中</h3>
+<script>
+    // 我们的数据对象
+    var data2 = {a: 1};
+
+    // 该对象被加入到一个 Vue 实例中
+    var vm2 = new Vue({
+        data: data2
+    });
+
+    // 获得这个实例上的属性
+    // 返回源数据中对应的字段
+    console.log(vm2.a === data2.a) // => true
+</script>
+
+<h3>示例3：使用 Object.freeze()，会阻止响应系统追踪变化</h3>
+<div id="app3">
+    <p>{{ foo }}</p>
+    <!-- 这里的 `foo` 不会更新！ -->
+    <button v-on:click="foo = 'baz'">Change it</button>
+</div>
+<script>
+    var obj3 = {
+        foo: 'bar'
+    };
+
+    Object.freeze(obj3);
+
+    var app3 = new Vue({
+        el: '#app3',
+        data: obj3
+    });
+</script>
+
+<h3>生命周期图示</h3>
+<img src="img/lifecycle.png" height="3039" width="1200"/></body>
+</html>
