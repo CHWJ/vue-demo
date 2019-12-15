@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模板语法</title>
+    <script src="../lib/vue.js"></script>
+</head>
+<body>
+
+<h3>Vue.js 使用了基于 HTML 的模板语法，允许开发者声明式地将 DOM 绑定至底层 Vue 实例的数据。</h3>
+
+<h3>示例1：使用模板语法来进行文本插值的数据绑定（绑定的数据对象上 message 属性发生了改变，插值处的内容都会更新）</h3>
+<div id="app1">
+    {{ message }}
+</div>
+<script>
+    var app1 = new Vue({
+        el: '#app1',
+        data: {
+            message: '可更新'
+        }
+    });
+</script>
+
+<h3>示例2：使用v-once来进行文本插值的数据绑定（执行一次性地插值，不可更新）</h3>
+<div id="app2" v-once>
+    {{ message }}
+</div>
+<script>
+    var app2 = new Vue({
+        el: '#app2',
+        data: {
+            message: '不可更新'
+        }
+    });
+</script>
+
+<h3>示例3：使用 v-html 指令输出真正的 HTML（动态渲染的任意 HTML 可能会非常危险，因为它很容易导致 XSS 攻击。）</h3>
+<div id="app3">
+    <p>{{ rawHtml }}</p>
+    <p v-html="rawHtml"></p>
+</div>
+<script>
+    var app3 = new Vue({
+        el: '#app3',
+        data: {
+            rawHtml: '<span style="color: red">This should be red.</span>'
+        }
+    });
+</script>
+
+<h3>示例4：给元素特性动态赋值</h3>
+<div id="app-4">
+    <span v-bind:title="message">
+            鼠标悬停几秒钟查看此处动态绑定的提示信息！
+        </span>
+</div>
+<script>
+    var app4 = new Vue({
+        el: '#app-4',
+        data: {
+            message: 'hello,jim!'
+        }
+    });
+</script>
+
+<h3>示例5：给元素特性动态赋值(布尔特性，查看绑定的属性的真值)</h3>
+<div id="app-5">
+    <p>可以使用输入框1！<input v-bind:disabled="isDisabled1"></input></p>
+    <p>不可以使用输入框2！<input v-bind:disabled="isDisabled2"></input></p>
+</div>
+<script>
+    var app5 = new Vue({
+        el: '#app-5',
+        data: {
+            isDisabled1: null,
+            isDisabled2: {}
+        }
+    });
+</script>
+
+<h3>示例6：结合使用 JavaScript 单个表达式，给元素特性动态赋值</h3>
+<div id="app-6">
+    <p>例子1</p>
+    <span v-bind:title="message + 123">
+            鼠标悬停几秒钟查看此处动态绑定的提示信息！
+        </span>
+    <p>例子2</p>
+    <p>可以访问全局变量的一个白名单，如 Math 和 Date：<span v-bind:title="new Date()">鼠标悬停几秒钟，查看此处动态绑定的日期信息！</span></p>
+    <p>例子3</p>
+    <p>不应该在模板表达式中试图访问用户定义的全局变量：<span v-bind:title="globalValue+'111'">鼠标悬停几秒钟，查看错误信息【undefined111】！</span></p>
+</div>
+<script>
+    var globalObj = 33;
+    var app6 = new Vue({
+        el: '#app-6',
+        data: {
+            message: 'hello,jim!'
+        }
+    });
+</script>
+
+</body>
+</html>
