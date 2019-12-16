@@ -88,7 +88,7 @@
     <p>例子2</p>
     <p>可以访问全局变量的一个白名单，如 Math 和 Date：<span v-bind:title="new Date()">鼠标悬停几秒钟，查看此处动态绑定的日期信息！</span></p>
     <p>例子3</p>
-    <p>不应该在模板表达式中试图访问用户定义的全局变量：<span v-bind:title="globalValue+'111'">鼠标悬停几秒钟，查看错误信息【undefined111】！</span></p>
+    <p>不应该在模板表达式中试图访问用户定义的全局变量：<span v-bind:title="globalObj+'111'">鼠标悬停几秒钟，查看错误信息【undefined111】！</span></p>
 </div>
 <script>
     var globalObj = 33;
@@ -96,6 +96,36 @@
         el: '#app-6',
         data: {
             message: 'hello,jim!'
+        }
+    });
+</script>
+
+<h3>示例7：给元素动态特性赋值（即特性不明确的）<span style="color: red">【未成功】</span></h3>
+<div id="app-7">
+    <!--    <span v-bind:[attributeName]="123">鼠标悬停几秒钟查看此处动态绑定的提示信息！</span>-->
+</div>
+<script>
+    // var app7 = new Vue({
+    //     el: '#app-7',
+    //     data: {
+    //         attributeName: 'title',
+    //         message: "hello"
+    //     }
+    // });
+</script>
+
+<h3>示例8：绑定事件时使用修饰符</h3>
+<div id="app-8">
+    <button v-on:click.prevent="onSubmit">点我！</button>
+</div>
+<script>
+    var app8 = new Vue({
+        el: '#app-8',
+        data: {},
+        methods: {
+            onSubmit: function (p1, p2) {
+                console.log(p1, p2);
+            }
         }
     });
 </script>
