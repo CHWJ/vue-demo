@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Class 与 Style 绑定</title>
+    <script src="../lib/vue.js"></script>
+    <style type="text/css">
+        .active {
+            color: red;
+            border: red 1px solid;
+        }
+
+        .noActive {
+            color: #0ccc19;
+        }
+    </style>
+</head>
+<body>
+
+<h3>示例1：动态添加 class</h3>
+<div id="app-1">
+    <p class="noActive" :class="{ active : !isActive }">没有高亮的文字</p>
+    <p :class="{ active : isActive }">高亮的文字</p>
+    <p :class="classProperty">使用对象绑定的高亮文字</p>
+</div>
+<script>
+    var app1 = new Vue({
+        el: '#app-1',
+        data: {
+            isActive: true,
+            classProperty: {
+                active: true,
+                noActive: false
+            }
+        }
+    });
+</script>
+
+<h3>示例2：动态添加 style</h3>
+<div id="app-2">
+    <p class="noActive" :style="{ color : colorName,border: border}">蓝色高亮的文字</p>
+    <p class="noActive" :style="customStyle">蓝色高亮的文字</p>
+</div>
+<script>
+    var app2 = new Vue({
+        el: '#app-2',
+        data: {
+            colorName: 'blue',
+            border: '',
+            customStyle: {
+                color: 'blue'
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
