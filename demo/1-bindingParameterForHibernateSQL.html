@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>1-bindingParameterForHibernateSQL</title>
+    <script src="../lib/vue.js"></script>
+    <style type="text/css">
+        .row {
+            display: flex;
+        }
+
+        .label {
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <div class="row">
+        <div class="label"><label>HibernateSQLLog</label></div>
+        <div><textarea v-model="sqlLog" :style="textStyle"></textarea></div>
+    </div>
+    <p style="text-align: right;">
+        <button v-on:click="convert">转换</button>
+    </p>
+    <div class="row">
+        <div class="label"><label>输出</label></div>
+        <div><textarea v-model="output" :style="textStyle"></textarea></div>
+    </div>
+</div>
+<script type="application/javascript">
+    var app = new Vue({
+        el: "#app",
+        data: {
+            sqlLog: null,
+            output: null,
+            textStyle: {
+                width: 0,
+                height: 0
+            }
+        },
+        methods: {
+            convert: function () {
+                // 按换行分割
+                let split = /\r\n|[\r\n]/;
+                let lines = [];
+                let sql = "";
+                let param = [];
+                if (this.sqlLog) {
+                    lines = this.sqlLog.split(split);
+                }
+                if (lines && lines.length > 1) {
+                    sql = lines[0];
+
+                    // 先给lines赋默认值
+                    for (let i = 0; i < lines.length - 1; i++) {
+                        param[i] = null;
+                    }
+
+                    let line;
+                    for (let i = 1; i < lines.length; i++) {
+                        line = lines[i];
+                        line = line.substring(line.toLowerCase().indexOf("binding"));
+                        let brackets = this.getBracketStr(line);
+                        if (brackets) {
+                            // 绑定枚举值
+                            if (brackets.length === 2) {
+                                param[brackets[1] - 1] = brackets[0];
+                            }
+                            // 绑定值
+                            else if (brackets.length === 3) {
+                                if (brackets[1] === "TIMESTAMP" || brackets[1] === "DATETIME" || brackets[1] === "VARCHAR") {
+                                    if (brackets[2] === 'null') {
+                                        param[brackets[0] - 1] = brackets[2];
+                                    } else {
+                                        param[brackets[0] - 1] = "'" + brackets[2] + "'";
+                                    }
+                                } else {
+                                    param[brackets[0] - 1] = brackets[2];
+                                }
+                            }
+                        }
+                    }
+
+                    for (let i = 0; i < param.length; i++) {
+                        sql = sql.replace('?', param[i]);
+                    }
+                    this.output = sql;
+                }
+            },
+            // 获取方括号中的值
+            getBracketStr: function (text) {
+                let result = [];
+                let regex = /\[(.+?)\]/g;
+                let options = text.match(regex);
+                if (options) {
+                    for (let i = 0; i < options.length; i++) {
+                        let option = options[i];
+                        if (option) {
+                            result.push(option.substring(1, option.length - 1));
+                        }
+                    }
+                }
+                return result;
+            }
+        }, mounted: function () {
+            debugger
+            this.textStyle.width = (window.outerWidth - 200) + "px";
+            this.textStyle.height = (window.outerHeight / 3) + "px";
+        }
+    });
+</script>
+</body>
+</html>
