@@ -27,11 +27,49 @@
             }
         },
         template: '<div><button v-on:click="onActionA">{{ actionAtext }}</button><button  v-on:click="onActionB">{{ actionBtext }}</button></div>'
-    })
+    });
 
     var app1 = new Vue({
         el: '#app-1',
         data: {}
+    });
+</script>
+
+<h3>示例2：将按钮文字及事件组成对象，当作props传递给dialog按钮栏</h3>
+<div id="app-2">
+    <dialog-action2 v-for="action in actions" v-bind:key="action.key" v-bind:action="action"></dialog-action2>
+    <textarea style="width: 270px;height: 150px" v-model="clickLog"></textarea>
+</div>
+<script>
+    Vue.component('dialog-action2', {
+        data: function () {
+            return {}
+        },
+        props: ['action'],
+        template: '<div><button v-on:click="action.onClick">{{ action.text }}</button></div>'
+    });
+
+    var app1 = new Vue({
+        el: '#app-2',
+        data: {
+            actions: [{
+                key: 1,
+                text: "按钮A",
+                onClick: function () {
+                    app1.appendLog("按钮A,shalalala");
+                }
+            }, {
+                key: 2,
+                text: "按钮B",
+                onClick: function () {
+                    app1.appendLog("按钮B,shalalala");
+                }
+            }],
+            clickLog: "",
+            appendLog: function (target) {
+                this.clickLog += "你点击了" + target + "\r\n";
+            }
+        }
     });
 </script>
 
