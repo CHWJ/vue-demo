@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表单输入绑定</title>
+    <script src="../lib/vue.js"></script>
+</head>
+<body>
+
+<h3>示例1：使用 v-model 指令双向数据绑定</h3>
+<div id="app-1">
+    <p>1、使用value 属性和 input 事件监听text：<input type="text" v-model="text"/></p>
+    <p>你输入了：{{ text }}</p>
+
+    <p>2、使用value 属性和 input 事件监听textarea：<textarea v-model="textarea"></textarea></p>
+    <p>你输入了：{{ textarea }}</p>
+
+    <p>3、使用checked 属性和 change 事件监听checkbox
+    <p><input type="checkbox" v-model="check" id="checkA" value="A"/><label for="checkA">A</label></p>
+    <p><input type="checkbox" v-model="check" id="checkB" value="B"/><label for="checkB">B</label></p>
+    <p>你选择了：{{ getCheck() }}</p>
+
+    <p>4、使用checked 属性和 change 事件监听radio</p>
+    <p><input type="radio" name="radio" v-model="radio" id="radioA" value="A"/><label for="radioA">A</label></p>
+    <p><input type="radio" name="radio" v-model="radio" id="radioB" value="B"/><label for="radioB">B</label></p>
+    <p>你的选择：{{ radio }}</p>
+
+    <p>5、将 value 作为 prop 并将 change 作为事件监听select</p>
+    <select v-model="sel">
+        <option disabled value="">请选择</option>
+        <option>A</option>
+        <option>B</option>
+        <option>C</option>
+    </select>
+    <p>你选择了：{{ sel }}</p>
+</div>
+<script>
+    var app1 = new Vue({
+        el: '#app-1',
+        data: {
+            text: "",
+            textarea: "",
+            check: [],
+            radio: "",
+            sel: ""
+        }, methods: {
+            getCheck: function () {
+                return this.check.length === 0 ? "空" : this.check;
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
